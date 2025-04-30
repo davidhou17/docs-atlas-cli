@@ -1,5 +1,6 @@
 name = "atlas-cli"
-title = "Atlas Command Line Interface"
+title = "Atlas CLI"
+eol = true
 
 intersphinx = [ "https://www.mongodb.com/docs/ops-manager/current/objects.inv",            
                 "https://www.mongodb.com/docs/manual/objects.inv",
@@ -10,22 +11,29 @@ intersphinx = [ "https://www.mongodb.com/docs/ops-manager/current/objects.inv",
 toc_landing_pages = [
   "/atlas-cli-changelog",
   "/atlas-cli-env-variables",
+  "/atlas-cli-automate",
   "/atlas-cli-profiles",
   "/atlas-cli-quickstart",
   "/atlas-cli-tutorials",
+  "/atlas-cli-local-cloud",
   "/command/atlas",
   "/compatibility",
   "/connect-atlas-cli",
   "/install-atlas-cli",
   "/migrate-to-atlas-cli",
+  "/reference/json",
   "/telemetry"
   ]
 
 [constants]
 aagent = "Automation Agent"
+adf = "Atlas Data Federation"
 atlas-cli = "Atlas CLI"
 atlas-cli-full = "MongoDB Atlas CLI"
-atlas-cli-version = "1.1.7"
+atlas-cli-version = "1.23.0"
+ak8so = "Atlas Kubernetes Operator"
+atlas-sp = "Atlas Stream Processing"
+avs = "Atlas Vector Search"
 cloudgov = ":atlas:`MongoDB Atlas for Government </government>`"
 cloudgov-short = "AtlasGov"
 cluster = "cluster"
@@ -39,12 +47,16 @@ data-lake-store = "data store"
 database-deployment = "database deployment"
 database-deployments = "database deployments"
 default-profile = ":ref:`default profile <mcli-profiles>`"
+df = "Data Federation"
+FDI = "Federated Database Instance"
+fdi = "federated database instance"
 mcli = "MongoDB CLI"
 mcli-long = "MongoDB Command Line Interface (``mongocli``)"
 mcli-version = "1.23.1"
 mdbagent = "MongoDB Agent"
-mdbVersion = "6.0"
+mdbVersion = "7.0"
 mongosh = ":binary:`~bin.mongosh`"
+oidc = ":abbr:`OIDC (OpenID Connect)`"
 
 [substitutions]
 a-application = "an Ops Manager Application"
@@ -106,17 +118,24 @@ utc = ":abbr:`UTC (Coordinated Universal Time)`"
 vpc = ":abbr:`VPC (Virtual Private Cloud)`"
 
 [[banners]]
-targets = ["command/atlas-dataLakes*.txt"]
+targets = ["command/atlas-dataLakePipelines*.txt"]
+variant = "warning"
+value = """\
+    **Data Lake is deprecated.** \
+    As of September 2024, Data Lake is deprecated and will reach end-of-life. It will be removed on September 30, 2025. If you use Data Lake, you should migrate to alternative solutions before the service is removed. To learn more, see :adl:`Migration Guide </data-lake-deprecation/>`\
+    """
+
+[[banners]]
+targets = ["command/atlas-deployments*.txt"]
+variant = "warning"
+value = """\
+    **Public Preview.** \
+    The ``atlas deployments`` command and subsequent related commands are available as a Public Preview. The feature and corresponding documentation may change at any time in the Public Preview stage. To ask questions and provide feedback, see the `Atlas CLI Local Development Community Forum <https://www.mongodb.com/community/forums/tag/local-dev-atlas-cli>`__.\
+    """
+
+[[banners]]
+targets = ["*"]
 variant = "info"
 value = """\
-    ``atlas dataLakes`` commands control the functionality previously \ 
-    named Data Lake, which is now called \
-    `Data Federation <https://www.mongodb.com/docs/atlas/data-federation/>`__ \
-    in the Atlas UI. The ``atlas dataLakes`` commands will \ 
-    continue to work for Data Federation without interruption. \ 
-    MongoDB's new \ 
-    `Data Lake <https://www.mongodb.com/docs/datalake/>`__ \ 
-    functionality doesn't include CLI commands. When we introduce a \ 
-    new set of CLI commands for our new Data Lake functionality, we \
-    will reach out to you to prevent any interruption of service.\
+    This version of the documentation is archived and no longer supported. View the `current documentation <https://www.mongodb.com/docs/atlas/cli/current/>`__ to learn how to `upgrade your version of the Atlas CLI <https://www.mongodb.com/docs/atlas/cli/current/install-atlas-cli/>`__.\
     """

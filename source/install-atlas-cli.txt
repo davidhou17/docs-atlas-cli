@@ -4,6 +4,17 @@
 Install or Update the {+atlas-cli+}
 ===================================
 
+.. facet::
+   :name: programming_language
+   :values: shell
+
+.. facet::
+   :name: genre 
+   :values: tutorial
+
+.. meta:: 
+   :description: Install the Atlas CLI to quickly provision and manage Atlas database deployments from the terminal.
+
 .. contents:: On this page
    :local:
    :backlinks: none
@@ -13,11 +24,13 @@ Install or Update the {+atlas-cli+}
 Install the {+atlas-cli+} to quickly provision and manage |service|
 {+database-deployments+} from the terminal.
 
+To verify packages before installation, see :ref:`verify-packages`.
+
 Install the {+atlas-cli+}
 -------------------------
 
-Select an installation method below and follow the steps to install the
-{+atlas-cli+}.
+Select one of the following installation methods and follow the steps to
+install the {+atlas-cli+}.
 
 To check whether your operating system is compatible with the 
 {+atlas-cli+}, see :ref:`compatibility-atlas-cli`.
@@ -46,14 +59,40 @@ To check whether your operating system is compatible with the
       Complete the Prerequisites
       ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-      To install the {+atlas-cli+} using Apt, you must install ``gnupg``:
+      To install the {+atlas-cli+} using Apt, you must install ``gnupg`` and ``curl``:
 
       .. code-block:: sh
          
-         sudo apt-get install gnupg
+         sudo apt-get install gnupg curl
+
+   .. tab:: Chocolatey
+      :tabid: chocolatey
+
+      Complete the Prerequisites
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+      To install the {+atlas-cli+} using Chocolatey, you must do the 
+      following:
+
+      1. Ensure that your system meets the `requirements 
+         <https://docs.chocolatey.org/en-us/choco/setup#requirements>`__ for installing Chocolatey.
+      #. Install Chocolatey using ``cmd.exe`` or ``PowerShell.exe``. To 
+         learn more, see `Installing Chocolatey <https://docs.chocolatey.org/en-us/choco/setup#installing-chocolatey>`__.
+
+   .. tab:: Docker
+      :tabid: docker
+
+      Complete the Prerequisites
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+      To install the {+atlas-cli+} using Docker, install the 
+      `Docker engine <https://docs.docker.com/engine/install/>`__ or
+      `Docker desktop <https://docs.docker.com/desktop/>`__.
 
    .. tab:: Download Binary
       :tabid: download-binary
+
+.. _atlas-cli-install-steps:
 
 Follow These Steps
 ~~~~~~~~~~~~~~~~~~
@@ -65,6 +104,7 @@ Follow These Steps
       :tabid: Homebrew
 
       .. procedure::
+         :style: normal
 
          .. step:: Install the {+atlas-cli+} and {+mongosh+}.
 
@@ -87,6 +127,7 @@ Follow These Steps
       :tabid: yum    
       
       .. procedure::
+         :style: normal
 
          .. step:: Configure ``yum`` for your edition of MongoDB. 
 
@@ -115,8 +156,8 @@ Follow These Steps
                            enabled=1
                            gpgkey=https://pgp.mongodb.com/server-{+mdbVersion+}.asc
 
-                     .. tab:: Amazon Linux
-                        :tabid: amazon
+                     .. tab:: Amazon Linux 2
+                        :tabid: amazon2
 
                         .. code-block:: text
                            :emphasize-lines: 1
@@ -124,6 +165,19 @@ Follow These Steps
                            [mongodb-org-{+mdbVersion+}]
                            name=MongoDB Repository
                            baseurl=https://repo.mongodb.org/yum/amazon/2/mongodb-org/{+mdbVersion+}/x86_64/
+                           gpgcheck=1
+                           enabled=1
+                           gpgkey=https://pgp.mongodb.com/server-{+mdbVersion+}.asc
+
+                     .. tab:: Amazon Linux 2023
+                        :tabid: amazon2023
+
+                        .. code-block:: text
+                           :emphasize-lines: 1
+
+                           [mongodb-org-{+mdbVersion+}]
+                           name=MongoDB Repository
+                           baseurl=https://repo.mongodb.org/yum/amazon/2023/mongodb-org/{+mdbVersion+}/x86_64/
                            gpgcheck=1
                            enabled=1
                            gpgkey=https://pgp.mongodb.com/server-{+mdbVersion+}.asc
@@ -152,8 +206,8 @@ Follow These Steps
                            enabled=1
                            gpgkey=https://pgp.mongodb.com/server-{+mdbVersion+}.asc
 
-                     .. tab:: Amazon Linux
-                        :tabid: amazon
+                     .. tab:: Amazon Linux 2
+                        :tabid: amazon2
 
                         .. code-block:: text
                            :emphasize-lines: 1
@@ -161,6 +215,19 @@ Follow These Steps
                            [mongodb-enterprise-{+mdbVersion+}]
                            name=MongoDB Enterprise Repository
                            baseurl=https://repo.mongodb.com/yum/amazon/2/mongodb-enterprise/{+mdbVersion+}/$basearch/
+                           gpgcheck=1
+                           enabled=1
+                           gpgkey=https://pgp.mongodb.com/server-{+mdbVersion+}.asc
+
+                     .. tab:: Amazon Linux 2023
+                        :tabid: amazon2023
+
+                        .. code-block:: text
+                           :emphasize-lines: 1
+
+                           [mongodb-enterprise-{+mdbVersion+}]
+                           name=MongoDB Enterprise Repository
+                           baseurl=https://repo.mongodb.com/yum/amazon/2023/mongodb-enterprise/{+mdbVersion+}/$basearch/
                            gpgcheck=1
                            enabled=1
                            gpgkey=https://pgp.mongodb.com/server-{+mdbVersion+}.asc
@@ -188,6 +255,7 @@ Follow These Steps
       :tabid: apt
 
       .. procedure::
+         :style: normal
 
          .. step:: Import the public key used by ``apt``.
 
@@ -199,7 +267,9 @@ Follow These Steps
 
             .. code-block:: sh
      
-               wget -qO - https://pgp.mongodb.com/server-{+mdbVersion+}.asc | sudo apt-key add -
+               curl -fsSL https://pgp.mongodb.com/server-{+mdbVersion+}.asc | \
+                  sudo gpg -o /usr/share/keyrings/mongodb-server-{+mdbVersion+}.gpg \
+                  --dearmor
      
             A successful command returns an ``OK``.
 
@@ -230,21 +300,21 @@ Follow These Steps
 
                               .. code-block:: sh
 
-                                 echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/{+mdbVersion+} multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-{+mdbVersion+}.list
+                                 echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-{+mdbVersion+}.gpg ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/{+mdbVersion+} multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-{+mdbVersion+}.list
 
                            .. tab:: Ubuntu 20.04 (Focal)
                               :tabid: comm-focal
 
                               .. code-block:: sh
 
-                                 echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/{+mdbVersion+} multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-{+mdbVersion+}.list
+                                 echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-{+mdbVersion+}.gpg ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/{+mdbVersion+} multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-{+mdbVersion+}.list
 
                            .. tab:: Ubuntu 18.04 (Bionic)
                               :tabid: comm-bionic
 
                               .. code-block:: sh
 
-                                 echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/{+mdbVersion+} multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-{+mdbVersion+}.list
+                                 echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-{+mdbVersion+}.gpg ] https://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/{+mdbVersion+} multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-{+mdbVersion+}.list
 
                      .. tab:: Debian
                         :tabid: debian
@@ -257,19 +327,26 @@ Follow These Steps
 
                         .. tabs::
 
+                           .. tab:: Debian 12 (Bookworm)
+                              :tabid: comm-deb-12
+
+                              .. code-block:: sh
+
+                                 echo "deb http://repo.mongodb.org/apt/debian bookworm/mongodb-org/{+mdbVersion+} main" | sudo tee /etc/apt/sources.list.d/mongodb-org-{+mdbVersion+}.list
+
+                           .. tab:: Debian 11 (Bullseye)
+                              :tabid: comm-deb-11
+
+                              .. code-block:: sh
+
+                                 echo "deb http://repo.mongodb.org/apt/debian bullseye/mongodb-org/{+mdbVersion+} main" | sudo tee /etc/apt/sources.list.d/mongodb-org-{+mdbVersion+}.list
+
                            .. tab:: Debian 10 (Buster)
                               :tabid: comm-deb-10
 
                               .. code-block:: sh
 
                                  echo "deb http://repo.mongodb.org/apt/debian buster/mongodb-org/{+mdbVersion+} main" | sudo tee /etc/apt/sources.list.d/mongodb-org-{+mdbVersion+}.list
-
-                           .. tab:: Debian 9 (Stretch)
-                              :tabid: comm-deb-9
-
-                              .. code-block:: sh
-
-                                 echo "deb http://repo.mongodb.org/apt/debian stretch/mongodb-org/{+mdbVersion+} main" | sudo tee /etc/apt/sources.list.d/mongodb-org-{+mdbVersion+}.list
 
                .. tab:: MongoDB Enterprise Edition
                   :tabid: mdb-ent
@@ -292,21 +369,21 @@ Follow These Steps
 
                               .. code-block:: sh
 
-                                 echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.com/apt/ubuntu jammy/mongodb-enterprise/{+mdbVersion+} multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-enterprise.list
+                                 echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-{+mdbVersion+}.gpg ] https://repo.mongodb.com/apt/ubuntu jammy/mongodb-enterprise/{+mdbVersion+} multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-enterprise.list
 
                            .. tab:: Ubuntu 20.04 (Focal)
                               :tabid: ent-focal
 
                               .. code-block:: sh
 
-                                 echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.com/apt/ubuntu focal/mongodb-enterprise/{+mdbVersion+} multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-enterprise.list
+                                 echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-{+mdbVersion+}.gpg ] https://repo.mongodb.com/apt/ubuntu focal/mongodb-enterprise/{+mdbVersion+} multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-enterprise.list
 
                            .. tab:: Ubuntu 18.04 (Bionic)
                               :tabid: ent-bionic
 
                               .. code-block:: sh
 
-                                 echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.com/apt/ubuntu bionic/mongodb-enterprise/{+mdbVersion+} multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-enterprise.list
+                                 echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-{+mdbVersion+}.gpg ] https://repo.mongodb.com/apt/ubuntu bionic/mongodb-enterprise/{+mdbVersion+} multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-enterprise.list
 
                      .. tab:: Debian
                         :tabid: debian
@@ -317,19 +394,19 @@ Follow These Steps
 
                         .. tabs::
 
+                           .. tab:: Debian 11 (Bullseye)
+                              :tabid: ent-deb-11
+
+                              .. code-block:: sh
+
+                                 echo "deb http://repo.mongodb.com/apt/debian bullseye/mongodb-enterprise/{+mdbVersion+} main" | sudo tee /etc/apt/sources.list.d/mongodb-enterprise.list
+
                            .. tab:: Debian 10 (Buster)
                               :tabid: ent-deb-10
 
                               .. code-block:: sh
 
                                  echo "deb http://repo.mongodb.com/apt/debian buster/mongodb-enterprise/{+mdbVersion+} main" | sudo tee /etc/apt/sources.list.d/mongodb-enterprise.list
-
-                           .. tab:: Debian 9 (Stretch)
-                              :tabid: ent-deb-9
-
-                              .. code-block:: sh
-
-                                 echo "deb http://repo.mongodb.com/apt/debian stretch/mongodb-enterprise/{+mdbVersion+} main" | sudo tee /etc/apt/sources.list.d/mongodb-enterprise.list
 
          .. step:: Refresh the package database.
 
@@ -358,10 +435,54 @@ Follow These Steps
 
          .. include:: /includes/steps-verify-atlas-cli.rst
 
+   .. tab:: Chocolatey
+      :tabid: chocolatey
+
+      .. procedure::
+         :style: normal
+
+         .. step:: Install the {+atlas-cli+}.
+
+            .. code-block:: shell 
+
+               choco install mongodb-atlas
+
+         .. step:: When prompted, enter ``A`` to confirm installation.
+
+         .. step:: Close and reopen your terminal after the installation to see the changes in your path.
+
+         .. include:: /includes/steps-verify-atlas-cli.rst
+
+   .. tab:: Docker
+      :tabid: docker
+
+      To pull the latest `{+atlas-cli+} Docker image 
+      <https://hub.docker.com/repository/docker/mongodb/atlas/general>`__, run the following
+      command:
+
+      .. code-block::
+
+         docker pull mongodb/atlas
+
+      If you run ``docker pull mongodb/atlas`` without specifying
+      a version tag, Docker automatically pulls the latest version
+      of the Docker image (``mongodb/atlas:latest``). 
+      
+      To pull a specific version of the Docker image, run the following
+      command, replacing ``<tag>`` with the version tag: 
+      
+      .. code-block::
+      
+         docker pull mongodb/atlas:<tag>
+
+      To learn how to run {+atlas-cli+} commands with Docker after you
+      pull the Docker image, see :ref:`atlas-cli-docker`.
+
    .. tab:: Download Binary
       :tabid: download-binary
 
       .. procedure::
+         :style: normal
 
          .. step:: Install the {+atlas-cli+}.
           
@@ -421,6 +542,7 @@ method you used to install the {+atlas-cli+}:
       ~~~~~~~~~~~~~~~~~~
 
       .. procedure::
+         :style: normal
 
          .. step:: Update the {+atlas-cli+}.
 
@@ -449,6 +571,7 @@ method you used to install the {+atlas-cli+}:
       ~~~~~~~~~~~~~~~~~~
 
       .. procedure::
+         :style: normal
 
          .. step:: Update the {+atlas-cli+}.
 
@@ -475,6 +598,7 @@ method you used to install the {+atlas-cli+}:
       ~~~~~~~~~~~~~~~~~~
 
       .. procedure::
+         :style: normal
 
          .. step:: Update the {+atlas-cli+}.
 
@@ -495,6 +619,23 @@ method you used to install the {+atlas-cli+}:
 
          .. include:: /includes/steps-verify-update-atlas-cli.rst
 
+   .. tab:: Chocolatey
+      :tabid: chocolatey
+
+      Follow These Steps
+      ~~~~~~~~~~~~~~~~~~
+
+      .. procedure::
+         :style: normal
+
+         .. step:: Install the {+atlas-cli+}.
+
+            .. code-block:: shell 
+
+               choco upgrade mongodb-atlas
+
+         .. include:: /includes/steps-verify-update-atlas-cli.rst
+
    .. tab:: Download Binary
       :tabid: download-binary
 
@@ -502,6 +643,7 @@ method you used to install the {+atlas-cli+}:
       ~~~~~~~~~~~~~~~~~~
 
       .. procedure::
+         :style: normal
 
          .. step:: Update the {+atlas-cli+}.
 
@@ -522,9 +664,10 @@ Take the Next Steps
 -------------------
 
 :ref:`<connect-atlas-cli>` to start using the 
-:doc:`{+atlas-cli+} commands </command/atlas>`.
+:ref:`{+atlas-cli+} commands <atlas>`.
 
 .. toctree::
    :titlesonly:
 
-   /compatibility
+   Check Compatibility </compatibility>
+   Verify Packages </verify-packages>
