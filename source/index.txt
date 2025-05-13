@@ -1,3 +1,6 @@
+.. meta::
+   :robots: noindex, nosnippet 
+
 :template: product-landing
 :hidefeedback: header
 :noprevnext:
@@ -63,14 +66,31 @@ Get started quickly with two commands:
             #. Adds your IP address to your project's IP access list.
             #. Creates a MongoDB user for your |service| 
                {+database-deployment+}.
-            #. Connect to your new {+database-deployment+} using the
+            #. Connects to your new {+database-deployment+} using the
                MongoDB Shell, {+mongosh+}.
 
-            To learn more, see the :doc:`atlas setup documentation </command/atlas-setup>`.
+            To learn more, see the :ref:`atlas-setup` command.
 
       .. image:: /images/setup.gif
          :alt: atlas setup command
 
+   .. tab:: Create an Atlas Deployment
+      :tabid: deploy
+
+      .. procedure::
+
+         .. step:: Run ``atlas deployments setup``
+
+            To learn more, see :ref:`atlas-cli-local-cloud`.
+
+   .. tab:: Create an Atlas Search Index
+      :tabid: search
+
+      .. procedure::
+
+         .. step:: Run ``atlas deployments search indexes create``
+
+            To learn more, see :ref:`atlas-cli-deploy-fts`.
 
 .. kicker:: Related Products & Resources
 
@@ -86,7 +106,7 @@ Learn the {+atlas-cli+} commands and optimize your workflow with advanced tutori
    .. card::
       :cta: See All Commands
       :url: https://www.mongodb.com/docs/atlas/cli/stable/command/atlas/
-      :icon: /images/icons/card1.svg
+      :icon: atlas_cli
       :icon-alt: AtlasCLI Commands Icon
 
       Discover new {+atlas-cli+} commands
@@ -94,7 +114,7 @@ Learn the {+atlas-cli+} commands and optimize your workflow with advanced tutori
    .. card::
       :cta: View All Tutorials
       :url: https://www.mongodb.com/docs/atlas/cli/stable/atlas-cli-tutorials/
-      :icon: /images/icons/card2.svg
+      :icon: general_content_tutorial
       :icon-alt: Tutorials Icon
 
       Explore {+atlas-cli+} workflows with guided tutorials
@@ -102,7 +122,7 @@ Learn the {+atlas-cli+} commands and optimize your workflow with advanced tutori
    .. card::
       :cta: Read Release Notes
       :url: https://www.mongodb.com/docs/atlas/cli/stable/atlas-cli-changelog/
-      :icon: /images/icons/card3.svg
+      :icon: atlas_product_family
       :icon-alt: Atlas Icon
 
       Learn what's new in the {+atlas-cli+}
@@ -111,10 +131,12 @@ Learn the {+atlas-cli+} commands and optimize your workflow with advanced tutori
    :titlesonly:
 
    Overview </index>
-   /install-atlas-cli
-   /connect-atlas-cli
-   /configure-optional-settings
-   /atlas-cli-tutorials
-   Atlas CLI Commands </command/atlas>
-   /reference
-   /atlas-cli-changelog
+   Install or Update </install-atlas-cli>
+   Connect </connect-atlas-cli>
+   Commands </command/atlas>
+   Automate </atlas-cli-automate>
+   Configure Telemetry </telemetry>
+   Manage Atlas </atlas-cli-tutorials>
+   Reference </reference>
+   Troubleshoot </troubleshooting>
+   Changelog </atlas-cli-changelog>
